@@ -1,22 +1,22 @@
 import Head from "next/head";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 import s from "../styles/Home.module.css";
 import Image from "next/image";
 
-const Home = () => {
-  const [pokemon, setPokemon] = useState([]);
+const Home = ({ pokemon }) => {
+  // const [pokemon, setPokemon] = useState([]);
 
-  useEffect(() => {
-    const getPokemon = async () => {
-      const res = await fetch(
-        "https://jherr-pokemon.s3.us-west-1.amazonaws.com/index.json"
-      );
-      const data = await res.json();
-      setPokemon(data);
-    };
-    getPokemon();
-  }, []);
+  // useEffect(() => {
+  //   const getPokemon = async () => {
+  //     const res = await fetch(
+  //       "https://jherr-pokemon.s3.us-west-1.amazonaws.com/index.json"
+  //     );
+  //     const data = await res.json();
+  //     setPokemon(data);
+  //   };
+  //   getPokemon();
+  // }, []);
 
   return (
     <>
@@ -46,3 +46,15 @@ const Home = () => {
 };
 
 export default Home;
+
+export const getServerSideProps = async () => {
+  const res = await fetch(
+    "https://jherr-pokemon.s3.us-west-1.amazonaws.com/index.json"
+  );
+
+  return {
+    props: {
+      pokemon: await res.json(),
+    },
+  };
+};
